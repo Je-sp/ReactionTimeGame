@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickTap Reflex - Test Your Reaction Time</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.mobile.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <h1>QuickTap Reflex</h1>
+      </div>
+      <div class="controls">
+        <button id="soundToggle" aria-label="Toggle sound" title="Toggle sound">
+          <span id="soundIcon">🔊</span>
+        </button>
+        <button id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+          <span id="themeIcon">☀️</span>
+        </button>
+        <button id="showInstructions" aria-label="Instructions" title="Instructions">
+          <span>❓</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="stats-display">
+        <div class="stat">
+          <p class="stat-label">Fastest</p>
+          <p class="stat-value" id="fastest">--</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Average</p>
+          <p class="stat-value" id="average">--</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Last</p>
+          <p class="stat-value" id="last">--</p>
+        </div>
+      </div>
+      
+      <div class="game-area" id="gameArea">
+        <div class="game-message" id="gameMessage">
+          <p id="gameInstruction">Tap when the color changes</p>
+          <button id="startButton" class="button">Start Game</button>
+        </div>
+        <div class="result-display" id="resultDisplay" style="display: none;">
+          <p id="resultTime" class="result-time">0</p>
+          <p class="result-unit">milliseconds</p>
+        </div>
+        <div class="false-start" id="falseStart" style="display: none;">
+          <p class="false-start-text">False Start!</p>
+          <p class="false-start-hint">Wait for the color change</p>
+        </div>
+      </div>
+
+      <div class="reset-container">
+        <button id="resetButton" class="button secondary-button">Reset Game</button>
+      </div>
+
+      <div class="history-panel">
+        <button class="history-header" id="historyToggle">
+          <span>Reaction History</span>
+          <span class="chevron-down">▼</span>
+        </button>
+        <div class="history-content" id="historyContent" style="display: none;">
+          <div class="history-items" id="historyItems">
+            <p class="no-history">No history yet. Complete an attempt to see it here.</p>
+          </div>
+          <button id="clearHistory" class="clear-history-button" style="display: none;">Clear History</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="instructions-modal" id="instructionsModal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>How to Play</h2>
+        <button id="closeInstructions" class="close-button">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="instruction-item">
+          <div class="instruction-icon timer-icon">⏱️</div>
+          <div class="instruction-text">
+            <h3>Wait for the Signal</h3>
+            <p>The screen will change color after a random interval.</p>
+          </div>
+        </div>
+        <div class="instruction-item">
+          <div class="instruction-icon react-icon">👆</div>
+          <div class="instruction-text">
+            <h3>React Quickly</h3>
+            <p>Tap, click or press spacebar as soon as you see the change.</p>
+          </div>
+        </div>
+        <div class="instruction-item">
+          <div class="instruction-icon warning-icon">⚠️</div>
+          <div class="instruction-text">
+            <h3>Avoid False Starts</h3>
+            <p>Tapping before the color changes counts as a false start.</p>
+          </div>
+        </div>
+        <div class="instruction-item">
+          <div class="instruction-icon trophy-icon">🏆</div>
+          <div class="instruction-text">
+            <h3>Beat Your Best</h3>
+            <p>Your reaction times are tracked to help you improve.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="startFromInstructions" class="button primary-button">Got it, Let's Play</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2024 QuickTap Reflex - Designed by Group 6</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
