@@ -104,28 +104,24 @@ function handleReaction() {
   }
 }
 
-function resetGame() {
+function restart() {
   waitingToStart = true;
   gameStarted = false;
   startTime = 0;
   endTime = 0;
-  fastestTime = null;
-  averageTime = null;
-  lastTime = null;
-  reactionTimes = [];
   waitingForReadySignal = false;
 
   gameArea.classList.remove('ready');
   setGameMessage('Tap when the color changes');
   falseStart.style.display = 'none';
   resultDisplay.style.display = 'none';
-
-  updateStats();
-  updateHistory();
 }
 
 function clearHistory() {
   reactionTimes = [];
+  fastestTime = null;
+  averageTime = null;
+  lastTime = null;
   updateStats();
   updateHistory();
 }
@@ -148,8 +144,7 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-resetButton.addEventListener('click', resetGame);
-
+resetButton.addEventListener('click', restart);
 clearHistoryButton.addEventListener('click', clearHistory);
 
 historyToggle.addEventListener('click', () => {
