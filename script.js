@@ -1,4 +1,3 @@
-// Variables for tracking state
 let waitingToStart = true;
 let gameStarted = false;
 let startTime = 0;
@@ -7,8 +6,8 @@ let fastestTime = null;
 let averageTime = null;
 let lastTime = null;
 let reactionTimes = [];
+let waitingForReadySignal = false;
 
-// DOM Elements
 const gameArea = document.getElementById('gameArea');
 const gameMessage = document.getElementById('gameMessage');
 const resultDisplay = document.getElementById('resultDisplay');
@@ -26,7 +25,6 @@ const startFromInstructions = document.getElementById('startFromInstructions');
 const closeInstructions = document.getElementById('closeInstructions');
 const historyToggle = document.getElementById('historyToggle');
 
-// Utility Functions
 function setGameMessage(message) {
   gameMessage.innerHTML = `<p id="gameInstruction">${message}</p>`;
 }
@@ -49,30 +47,38 @@ function updateHistory() {
   }
 }
 
-// Game Logic
 function startGame() {
-  if (!waitingToStart) return;
+  if (!waitingToStart || waitingForReadySignal) return;
 
   waitingToStart = false;
   setGameMessage('Get ready...');
   falseStart.style.display = 'none';
   resultDisplay.style.display = 'none';
 
-  // Wait a random time before allowing the user to tap
   const randomDelay = Math.random() * 3000 + 1000;
+  waitingForReadySignal = true;
   setTimeout(() => {
     if (!waitingToStart) {
       gameStarted = true;
       gameArea.classList.add('ready');
       setGameMessage('Tap now!');
       startTime = Date.now();
+      waitingForReadySignal = false;
     }
   }, randomDelay);
 }
 
 function handleReaction() {
+  if (waitingForReadySignal) {
+    falseStart.style.display = 'block';
+    gameStarted = false;
+    waitingToStart = true;
+    gameArea.classList.remove('ready');
+    setGameMessage('Tap when the color changes');
+    return;
+  }
+
   if (gameStarted) {
-    // Successful reaction
     endTime = Date.now();
     const reactionTime = endTime - startTime;
 
@@ -95,14 +101,6 @@ function handleReaction() {
 
     updateStats();
     updateHistory();
-  } else if (!waitingToStart) {
-    // False start
-    gameStarted = false;
-    waitingToStart = true;
-
-    gameArea.classList.remove('ready');
-    setGameMessage('Tap when the color changes');
-    falseStart.style.display = 'block';
   }
 }
 
@@ -115,6 +113,7 @@ function resetGame() {
   averageTime = null;
   lastTime = null;
   reactionTimes = [];
+  waitingForReadySignal = false;
 
   gameArea.classList.remove('ready');
   setGameMessage('Tap when the color changes');
@@ -131,12 +130,21 @@ function clearHistory() {
   updateHistory();
 }
 
-// Event Listeners
 gameArea.addEventListener('click', () => {
   if (waitingToStart) {
     startGame();
   } else {
     handleReaction();
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === ' ' || event.keyCode === 32) {
+    if (waitingToStart) {
+      startGame();
+    } else {
+      handleReaction();
+    }
   }
 });
 
@@ -158,6 +166,5 @@ closeInstructions.addEventListener('click', () => {
   instructionsModal.style.display = 'none';
 });
 
-// Initialize
 updateStats();
 updateHistory();
